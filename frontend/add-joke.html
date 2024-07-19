@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Add a Joke</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" />
+  </head>
+  <body>
+    <div class="container mt-5">
+      <h1 class="text-center">Add a Joke</h1>
+      <form id="joke-form" class="mt-4">
+        <div class="form-group">
+          <label for="question">Question</label>
+          <input type="text" class="form-control" id="question" required />
+        </div>
+        <div class="form-group">
+          <label for="answer">Answer</label>
+          <input type="text" class="form-control" id="answer" required />
+        </div>
+        <div class="form-group">
+          <label for="rating">Rating</label>
+          <input type="number" class="form-control" id="rating" required />
+        </div>
+        <button type="submit" class="btn btn-primary">Add Joke</button>
+        <button type="button" class="btn btn-secondary" onclick="location.href='index.html'">Home</button>
+      </form>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+    <script>
+      document.getElementById('joke-form').addEventListener('submit', function (event) {
+        event.preventDefault();
+        const joke = {
+          question: document.getElementById('question').value,
+          answer: document.getElementById('answer').value,
+          rating: document.getElementById('rating').value,
+        };
+
+        axios
+          .post('/api/jokes', joke)
+          .then((response) => {
+            alert('Joke added successfully');
+            document.getElementById('joke-form').reset();
+          })
+          .catch((error) => {
+            console.error('Error adding joke:', error);
+            alert('Failed to add joke');
+          });
+      });
+    </script>
+  </body>
+</html>

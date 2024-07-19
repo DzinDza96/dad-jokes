@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Dad Jokes App</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" />
+  </head>
+  <body>
+    <div class="container mt-5">
+      <h1 class="text-center">Dad Jokes</h1>
+      <div id="joke-container" class="mt-4 text-center">
+        <h4 id="joke-question"></h4>
+        <p id="joke-answer"></p>
+        <p id="joke-rating"></p>
+      </div>
+      <div class="text-center mt-4">
+        <button id="get-joke" class="btn btn-primary">Get Another Joke</button>
+        <button class="btn btn-secondary" onclick="location.href='add-joke.html'">Add a Joke</button>
+        <button class="btn btn-secondary" onclick="location.href='list-jokes.html'">List All Jokes</button>
+      </div>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+    <script>
+      function fetchRandomJoke() {
+        axios
+          .get('/api/jokes/random')
+          .then((response) => {
+            const joke = response.data;
+            document.getElementById('joke-question').innerText = `Question: ${joke.question}`;
+            document.getElementById('joke-answer').innerText = `Answer: ${joke.answer}`;
+            document.getElementById('joke-rating').innerText = `Rating: ${joke.rating}`;
+          })
+          .catch((error) => {
+            console.error('Error fetching joke:', error);
+            document.getElementById('joke-container').innerText = 'Failed to fetch joke';
+          });
+      }
+
+      document.getElementById('get-joke').addEventListener('click', fetchRandomJoke);
+
+      // Fetch a random joke on page load
+      window.onload = fetchRandomJoke;
+    </script>
+  </body>
+</html>
